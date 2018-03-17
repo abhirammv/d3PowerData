@@ -12,10 +12,12 @@
   <body>
     <svg width="960" height="500"></svg>
     <script>
+      var parseTime = d3.timeParse("%m/%d");
       const yLabel = 'Population';
-      const xLabel = 'Year';
+      const xLabel = 'date';
       const row = d => {
-        d.Year = new Date(+d.year);
+
+        d.Date = new Date(+d.date);
         d.Fridge = +d.Fridge;
         d.Dishwasher = +d.Dishwasher;
         d.Microwave = +d.Microwave;
@@ -54,7 +56,7 @@
       var stack = d3.stack()
         .keys(keys);
 
-      var xValue = function (d) { return d.Year; };
+      var xValue = function (d) { return d.Date; };
       var xScale = d3.scaleTime();
       var yScale = d3.scaleLinear().range([0,7]);
       var colorScale = d3.scaleOrdinal()
@@ -65,9 +67,10 @@
       var xAxisMajor = d3.axisBottom().scale(xScale).tickFormat(d3.format('0'));
       var xAxisMinor = d3.axisBottom().scale(xScale).ticks(30);
       var yAxis = d3.axisLeft().scale(yScale).ticks(20);
-      
+      //console.log(d.data)
       var area = d3.area()
-        .x(d => xScale(xValue(d.data)))
+        .x(function(d) { return xScale(xValue(d.data))})
+        //.x(d => xScale(xValue(d.data)))
         .y0(d => yScale(d[0]))
         .y1(d => yScale(d[1]))
         .curve(d3.curveBasis);

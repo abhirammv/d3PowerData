@@ -20,7 +20,7 @@ body {
       .axis--major .tick text, .legend text, .tooltip text {
         fill: #585858;
         font-family: sans-serif;
-        font-size: 16pt;
+        font-size: 10pt;
       }
       .axis--minor .tick text {
         display: none;
