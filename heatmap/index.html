@@ -74,11 +74,13 @@
       };
 
       const heatmapChart = function(tsvFile) {
-        console.log(tsvFile)
+        
         if (tsvFile == "data1.tsv")
-          colors = d3.schemeReds[9];
-        else if (tsvFile == "data4.tsv")
-          colors = d3.schemeBlues[9];
+          {console.log("R")
+                    colors = d3.schemeReds[9];}
+        else if (tsvFile == "data2.tsv")
+          {console.log("B")
+                    colors = d3.schemeBlues[9];}
         d3.tsv(tsvFile, type, (error, data) => {
           const colorScale = d3.scaleQuantile()
             .domain([0, buckets - 1, d3.max(data, (d) => d.value)])
