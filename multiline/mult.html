@@ -1,33 +1,61 @@
+
+
+
 <!DOCTYPE html>
 
 <html>
 
 <meta charset="utf-8">
-<style>
+<head>
+  <svg width="600" height="500"></svg>
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <style>
 
-.axis--x path {
-  display: none;
+  .axis--x path {
+    
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+  .ui-slider {
+    width: 30em;
+    
+  }
+  .ui-slider .ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 0.5em;
+  height: 1.2em;
+  cursor: default;
+  -ms-touch-action: none;
+  touch-action: none;
+  margin-left: 0.1em;
 }
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-</style>
-<svg width="600" height="500"></svg>
-<script src="//d3js.org/d3.v4.min.js"></script>
-
+  </style>
+  
+</head>  
+  
 
 <body>
 <br>
 
-<button onclick="updateData('data1.csv')">Day1</button>
-<button onclick="updateData('data2.csv')">Day2</button>
+<br>
+<div 
+  id="slider" 
+>
+
+</div>
 
 <br>
-
+<span id="day"></span>
 <script>
 
 var svg = d3.select("svg"),
@@ -88,20 +116,22 @@ d3.csv("data1.csv", type, function(error, data) {
     .enter().append("g")
       .attr("class", "city");
 
+
   var path = city.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.id); });
+      
 
-var totalLength = path.node().getTotalLength();
+// var totalLength = path.node().getTotalLength();
 
-    path
-      .attr("stroke-dasharray", totalLength + " " + totalLength)
-      .attr("stroke-dashoffset", totalLength)
-      .transition()
-        .duration(2000)
-        .ease(d3.easeLinear)
-        .attr("stroke-dashoffset", 0);
+//     path
+//       .attr("stroke-dasharray", totalLength + " " + totalLength)
+//       .attr("stroke-dashoffset", totalLength)
+//       .transition()
+//         .duration(2000)
+//         .ease(d3.easeLinear)
+//         .attr("stroke-dashoffset", 0);
   city.append("text") 
       .attr("class","labels")
       .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
@@ -169,7 +199,23 @@ function updateData(csvFile) {
    
 }
 
+var datasets = ["data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data1.csv","data2.csv","data3.csv","data2.csv"]
+var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24"]; 
+$('#slider').slider({
+      orientation: 'horizontal',
+      step: 1,
+      min: 0,
+      max: 36,
+      value: 0,
 
+      
+      animate: false,
+      change: function(event, ui) {
+        console.log(ui.value)
+        updateData(datasets[ui.value])
+        $("#day").text(days[ui.value]);
+      }
+    });
 
 </script>
 
