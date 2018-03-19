@@ -16,7 +16,7 @@
 }
 
 </style>
-<svg width="960" height="500"></svg>
+<svg width="600" height="500"></svg>
 <script src="//d3js.org/d3.v4.min.js"></script>
 
 
@@ -88,11 +88,20 @@ d3.csv("data1.csv", type, function(error, data) {
     .enter().append("g")
       .attr("class", "city");
 
-  city.append("path")
+  var path = city.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.id); });
 
+var totalLength = path.node().getTotalLength();
+
+    path
+      .attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+        .duration(2000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
   city.append("text") 
       .attr("class","labels")
       .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
@@ -130,6 +139,7 @@ function updateData(csvFile) {
       d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.temperature; }); })
     ]);
 
+    
     z.domain(cities.map(function(c) { return c.id; })); 
 
     g.select(".axis--x")
