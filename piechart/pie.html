@@ -3,8 +3,9 @@
 <style>
 
 .arc text {
-  font: 10px sans-serif;
+  font: 12px sans-serif;
   text-anchor: middle;
+    
 }
 
 .arc path {
@@ -14,18 +15,23 @@
 </style>
 <svg width="400" height="400"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/d3-color.v1.min.js"></script>
-<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="legend.js"></script>
 <script>
 
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height"),
-    radius = Math.min(width, height) / 3,
-    g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    radius = Math.min(width, height) / 3;
 
-var color = d3.scaleOrdinal(d3.schemeCategory10);
+var g = svg.append("g").attr("transform", "translate(" + width / 3 + "," + height / 3 + ")");
+    
+      
+var keys = ["Dishwasher", "Heat", "Micro", "Fridge", "Stove"];
+    console.log(keys);
+    
+var color = d3.scaleOrdinal().range(d3.schemeCategory10).domain(keys);
+    
 
 var pie = d3.pie()
     .sort(null)
@@ -39,13 +45,17 @@ var label = d3.arc()
     .outerRadius(radius - 40)
     .innerRadius(radius - 40);
 
-var arcOver = d3.arc().outerRadius(radius + 10)
+var arcOver = d3.arc().outerRadius(radius + 2)
     .innerRadius(0);
+
+var legend = d3.legend()
+.translate([ width/4 , height/8 - 100])
+.cb(function() { console.log("Done legend!"); }).colors(color);
+    
 
 d3.csv("piedata.csv", function(d) {
   d.usage = +d.usage;
-  return d;
-}, function(error, data) {
+  return d;}, function(error, data) {
   if (error) throw error;
 
   var arc = g.selectAll(".arc")
@@ -56,20 +66,24 @@ d3.csv("piedata.csv", function(d) {
   arc.append("path")
       .attr("d", path)
       .attr("fill", function(d) { return color(d.data.device); })
-      .on("mouseover", function(d){
+      .on("mousemove", function(d){
+        
       	d3.select(this)
       	.attr("d",arcOver)
+      .style("opacity", "0.7");
       })
       .on("mouseout", function(d){
       	d3.select(this)
       	.attr("d",path)
+      .style("opacity", "1");
       });
 
   arc.append("text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-      .attr("dy", "0.35em")
+      .attr("dy", "0.35em")    
       .text(function(d) { return d.data.device; });
       
+    g.call(legend);
 });
 
 </script>
