@@ -9,12 +9,11 @@
       }
 
       text.mono {
-        font-size: 6pt;
+        font-size: 8pt;
         font-family: Consolas, courier;
-        fill: #aaa;
+        fill: #000;
       }
 
-      
     </style>
     <script src="http://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
@@ -31,7 +30,7 @@
           height = 800 - margin.top - margin.bottom,
           gridSize = Math.floor(width / 48),
           legendElementWidth = gridSize*4,
-          buckets = 9,
+          buckets = 5,
           //colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
           
           days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24"],
@@ -76,11 +75,9 @@
       const heatmapChart = function(tsvFile) {
         
         if (tsvFile == "data1.tsv")
-          {console.log("R")
-                    colors = d3.schemeReds[9];}
+            {colors = d3.schemeReds[5];}
         else if (tsvFile == "data2.tsv")
-          {console.log("B")
-                    colors = d3.schemeBlues[9];}
+            {colors = d3.schemeReds[5];}
         d3.tsv(tsvFile, type, (error, data) => {
           const colorScale = d3.scaleQuantile()
             .domain([0, buckets - 1, d3.max(data, (d) => d.value)])
