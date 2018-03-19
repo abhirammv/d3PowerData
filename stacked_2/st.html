@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    .tooltip{
+        position: absolute;
+        display: none;
+        min-width: 80px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid #6F257F;
+        padding: 14px;
+        text-align: center;
+    }
+</style>
+<svg width="960" height="500"></svg>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="legend.js"></script>
+<script>
+    
+var svg = d3.select("svg"), //svg is defined 
+    margin = {top: 20, right: 20, bottom: 30, left: 50}, //margins
+    width = svg.attr("width") - margin.left - margin.right, //width of the svg
+    height = svg.attr("height") - margin.top - margin.bottom; //height 
+
+//var parseDate = d3.timeParse("%Y %b %d"); //dateparser
+var parseDate = d3.timeParse("%m/%d/%Y"); //dateparser
+
+var x = d3.scaleTime().range([0, width - 50]), //x scale is time-scale
+    y = d3.scaleLinear().domain([100, 100000]).range([height, 0]), //y scale depends on some values
+    z = d3.scaleOrdinal().range(d3.schemeCategory10); //z axis is the color 
+
+var stack = d3.stack(); //constructs a stack - computes stacked y positions
+//the stacked up data is passed to the area function
+var area = d3.area() //produces area graph between (x, y0) and x(, y1)
+    .x(function(d, i) { return x(d.data.date); })
+    .y0(function(d) { return y(d[0]); })
+    .y1(function(d) { return y(d[1]); });
+
+var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); //moved to the right and lower +x and +y
+
+var tooltip = d3.select("body").append("div").attr("class", "tooltip");
+
+var legend = d3.legend()
+.translate([ width - 10 , height / 8 ])
+.cb(function() { console.log("Done legend!"); });
+
+
+d3.tsv("data_1.tsv", type, function(error, data) { //type() fn is passed - type is a time parser
+  if (error) throw error;
+
+  var keys = data.columns.slice(1); //column names from the 1st col. 
+    //var keys_1 = data.columns.slice(0, 2); //date and google chrome. eqvt to [0:2]
+    console.log(keys);
+    
+    
+  x.domain(d3.extent(data, function(d) { return d.date; })); //setting the domain of the x scale 
+  z.domain(keys); //setting the domain of the z scale based on the column names 
+  stack.keys(keys); //you need to identify which columns to stack on 
+  legend.colors(z);
+  
+    var layer = g.selectAll(".layer") //class attr layer 
+        .data(stack(data)) //each layer is bound to stack data
+        .enter()//on enter 
+        .append("g") //appends to g     
+        .attr("class", "layer"); //adds the class attribute
+    
+    layer.append("path") //each layer is added a path
+         .attr("class", "area") //path is of attr area
+        .style("fill", "#fff")//filled with a color scheme based on z
+        //.attr("d", area); //M L paths given by area to draw (d) the area 
+
+    
+    d3.selectAll(".area").style("fill", "#fff")
+    .transition().duration(1000).ease(d3.easeQuad)
+    .attr("d", area)
+    .style("fill", function(d) {return z(d.key)});
+    
+    d3.selectAll(".area").on("mousemove", function(d) {
+        d3.select(this)
+            	.style("opacity", "0.7");
+        tooltip
+            	.style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .style("opacity", "0.8")
+                .html((d.key));
+                
+        }).on("mouseout", function(d) {
+        d3.select(this).style("opacity", "1");
+        tooltip.style("display", "none");
+    });
+    
+    layer.filter(function(d) //used to append the text in the end 
+            {
+                console.log(d[d.length - 1][1] - d[d.length - 1][0])
+                return d[d.length - 1][1] - d[d.length - 1][0] > 0.01; 
+            })
+        .append("text")
+        .attr("x", width - 6 - 50)
+        .attr("y", function(d) { return y((d[d.length - 1][0] + d[d.length - 1][1]) / 2); }) //used to center the text
+        .attr("dy", ".35em") //shift along the y axis
+        .style("font", "10px sans-serif") 
+        .style("text-anchor", "end") 
+        .text(function(d) { return d.key; }); //keys are the column names 
+
+    
+  g.append("g") //append to g
+      .attr("class", "axis axis--x") //x axis class
+      .attr("transform", "translate(0," + height + ")") //put it down 
+      .call(d3.axisBottom(x)); //call to axis 
+
+  g.append("g") //append to g 
+      .attr("class", "axis axis--y") //y axis class 
+      .call(d3.axisLeft(y)); //append to the left. Ticks of 10 with the % symbol
+  
+    
+g.call(legend);
+
+
+
+}); //d3.tsv ends here 
+    
+
+    
+function type(d, i, columns) { //row conversion function d - rows, i is the index, columns is the list of columns 
+  d.date = parseDate(d.date);
+  for (var i = 1, n = columns.length; i < n; ++i) 
+  {d[columns[i]] = d[columns[i]] / 100;} 
+  return d;
+}
+
+</script>
