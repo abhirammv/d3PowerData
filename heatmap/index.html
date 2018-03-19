@@ -9,12 +9,11 @@
       }
 
       text.mono {
-        font-size: 6pt;
+        font-size: 8pt;
         font-family: Consolas, courier;
-        fill: #aaa;
+        fill: #000;
       }
 
-      
     </style>
     <script src="http://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
@@ -114,21 +113,26 @@
               .attr("class", "legend");
 
           legend_g.append("rect")
-            .attr("x", (d, i) => legendElementWidth * i)
-            .attr("y", height)
-            .attr("width", legendElementWidth)
-            .attr("height", gridSize / 2)
+            .attr("x", (d, i) => legendElementWidth/2 * i)
+            .attr("y", 100)
+            .attr("width", legendElementWidth/2)
+            .attr("height", gridSize )
+            .attr("transform", "translate(590) rotate(90)")
             .style("fill", (d, i) => colors[i]);
 
           legend_g.append("text")
             .attr("class", "mono")
             //.text((d) => "≥ " + Math.round(d))
             .text(function (d) { 
-            
-              return "> "+ Math.round(d); 
+              if(d > 100)
+                  {
+                      return Math.round(d/1000) + "kW"; 
+                  }
+              else{return Math.round(d) + "W";} 
             })
-            .attr("x", (d, i) => legendElementWidth * i)
-            .attr("y", height + gridSize);
+            .attr("x", (d, i) => legendElementWidth/2 * i)
+            .attr("y", 100)
+            .attr("transform", "translate(600) rotate(90)");
 
           legend.exit().remove();
         });
