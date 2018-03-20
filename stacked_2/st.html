@@ -23,10 +23,10 @@ var svg = d3.select("svg"), //svg is defined
     height = svg.attr("height") - margin.top - margin.bottom; //height 
 
 //var parseDate = d3.timeParse("%Y %b %d"); //dateparser
-var parseDate = d3.timeParse("%m/%d/%Y"); //dateparser
+var parseDate = d3.timeParse("%m/%d/%y"); //dateparser
 
 var x = d3.scaleTime().range([0, width - 50]), //x scale is time-scale
-    y = d3.scaleLinear().domain([100, 100000]).range([height, 0]), //y scale depends on some values
+    y = d3.scaleLinear().domain([100, 140000]).range([height, 0]), //y scale depends on some values
     z = d3.scaleOrdinal().range(d3.schemeCategory10); //z axis is the color 
 
 var stack = d3.stack(); //constructs a stack - computes stacked y positions
@@ -42,11 +42,11 @@ var g = svg.append("g")
 var tooltip = d3.select("body").append("div").attr("class", "tooltip");
 
 var legend = d3.legend()
-.translate([ width - 10 , height / 8 ])
+.translate([ width - 5 , height / 8 ])
 .cb(function() { console.log("Done legend!"); });
 
 
-d3.tsv("data_1.tsv", type, function(error, data) { //type() fn is passed - type is a time parser
+d3.tsv("data_2.tsv", type, function(error, data) { //type() fn is passed - type is a time parser
   if (error) throw error;
 
   var keys = data.columns.slice(1); //column names from the 1st col. 
@@ -85,39 +85,37 @@ d3.tsv("data_1.tsv", type, function(error, data) { //type() fn is passed - type 
                 .style("display", "inline-block")
                 .style("opacity", "0.8")
                 .html((d.key));
-                
+        
         }).on("mouseout", function(d) {
         d3.select(this).style("opacity", "1");
         tooltip.style("display", "none");
     });
     
-    layer.filter(function(d) //used to append the text in the end 
-            {
-                console.log(d[d.length - 1][1] - d[d.length - 1][0])
-                return d[d.length - 1][1] - d[d.length - 1][0] > 0.01; 
-            })
-        .append("text")
-        .attr("x", width - 6 - 50)
-        .attr("y", function(d) { return y((d[d.length - 1][0] + d[d.length - 1][1]) / 2); }) //used to center the text
-        .attr("dy", ".35em") //shift along the y axis
-        .style("font", "10px sans-serif") 
-        .style("text-anchor", "end") 
-        .text(function(d) { return d.key; }); //keys are the column names 
+    //layer.filter(function(d) //used to append the text in the end 
+      //      {
+        //        console.log(d[d.length - 1][1] - d[d.length - 1][0])
+          //      return d[d.length - 1][1] - d[d.length - 1][0] > 0.01; 
+            //})
+        //.append("text")
+        //.attr("x", width - 6 - 50)
+        //.attr("y", function(d) { return y((d[d.length - 1][0] + d[d.length - 1][1]) / 2); }) //used to center the text
+        //.attr("dy", ".35em") //shift along the y axis
+        //.style("font", "10px sans-serif") 
+        //.style("text-anchor", "end") 
+        //.text(function(d) { return d.key; }); //keys are the column names 
 
     
-  g.append("g") //append to g
+    g.append("g") //append to g
       .attr("class", "axis axis--x") //x axis class
       .attr("transform", "translate(0," + height + ")") //put it down 
       .call(d3.axisBottom(x)); //call to axis 
 
-  g.append("g") //append to g 
+    g.append("g") //append to g 
       .attr("class", "axis axis--y") //y axis class 
       .call(d3.axisLeft(y)); //append to the left. Ticks of 10 with the % symbol
   
     
-g.call(legend);
-
-
+    g.call(legend);
 
 }); //d3.tsv ends here 
     
