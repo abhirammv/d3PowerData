@@ -27,10 +27,10 @@ var svg = d3.select("svg"),
 var g = svg.append("g").attr("transform", "translate(" + width / 3 + "," + height / 3 + ")");
     
       
-var keys = ["Dishwasher", "Heat", "Micro", "Fridge", "Stove"];
+var keys = ["refrigerator", "dish", "kitchen", "lighting", "washer", "microwave"];
     console.log(keys);
     
-var color = d3.scaleOrdinal().range(d3.schemeCategory10).domain(keys);
+var color = d3.scaleOrdinal(d3.schemeCategory10).domain(keys); //.range(d3.schemeCategory10)
     
 
 var pie = d3.pie()
@@ -49,7 +49,7 @@ var arcOver = d3.arc().outerRadius(radius + 2)
     .innerRadius(0);
 
 var legend = d3.legend()
-.translate([ width/4 , height/8 - 100])
+.translate([ width/2 , height/8 - 100])
 .cb(function() { console.log("Done legend!"); }).colors(color);
     
 

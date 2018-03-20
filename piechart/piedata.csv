@@ -1,6 +1,7 @@
 device,usage
-Dishwasher,18246649
-Heat, 8918500
-Micro, 15679973
-Fridge, 42301545
-Stove, 3850443
+refrigerator,42301545.0
+dish,18246649.0
+kitchen,50977384.0
+lighting,57485182.0
+washer,30206552.0
+microwave,15679973.0
