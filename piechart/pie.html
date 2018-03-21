@@ -4,12 +4,12 @@
 .tooltip{
         position: absolute;
         display: none;
-        min-width: 80px;
+		width: auto;
         height: auto;
         background: none repeat scroll 0 0 #ffffff;
         border: 1px solid #6F257F;
         padding: 14px;
-        text-align: center;
+        
     }
 .arc text {
   font: 12px sans-serif;
@@ -35,9 +35,11 @@ var svg = d3.select("svg"),
 var W = width/2 - 50;
 var H = height/2;
 var g = svg.append("g").attr("transform", "translate(" + W  + "," + H + ")");
+var total = 42301545 + 18246649 + 50977384 + 57485182 + 30206552 + 15679973;
+console.log(total);
     
       
-var keys = ["refrigerator", "dish", "kitchen", "lighting", "washer", "microwave"];
+var keys = ["Refrigerator", "Dishwasher", "Stove+Oven", "Lighting", "Washer_Dryer", "Microwave"];
     console.log(keys);
     
 var color = d3.scaleOrdinal(d3.schemeCategory10).domain(keys); //.range(d3.schemeCategory10)
@@ -78,22 +80,19 @@ d3.csv("piedata.csv", function(d) {
       .attr("d", path)
       .attr("fill", function(d) { return color(d.data.device); })
       .on("mousemove", function(d){
-        
-      	d3.select(this)
-      	.attr("d",arcOver)
-      .style("opacity", "0.7");
-
-
-      tooltip
-              .style("left", d3.event.pageX - 50 + "px")
+      		d3.select(this)
+      		.attr("d",arcOver)
+      		.style("opacity", "0.7");
+      		
+	  		tooltip.style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
                 .style("opacity", "0.8")
                 .html(function(){
-		  			 return "<strong>" + d.data.device + ": </strong>" + d.data.usage;
+		  			 return "<div><strong>" + d.data.device + ": </strong></div>" + Math.round(d.data.usage/total * 100) + "%";		
 		  		});
-      	})
-      .on("mouseout", function(d){
+	  
+      	}).on("mouseout", function(d){
 
         tooltip.style("display", "none");
       	d3.select(this)
@@ -101,10 +100,10 @@ d3.csv("piedata.csv", function(d) {
       	.style("opacity", "1");
       });
 
-  // arc.append("text")
-  //     .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-  //     .attr("dy", "0.35em")    
-  //     .text(function(d) { return d.data.device; });
+   arc.append("text")
+       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+       .attr("dy", "0.35em")    
+       .text(function(d) { return ; });
       
     g.call(legend);
 });
