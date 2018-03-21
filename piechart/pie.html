@@ -89,14 +89,16 @@ d3.csv("piedata.csv", function(d) {
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
                 .style("opacity", "0.8")
-                .html((d.data.usage));
-      })
+                .html(function(){
+		  			 return "<strong>" + d.data.device + ": </strong>" + d.data.usage;
+		  		});
+      	})
       .on("mouseout", function(d){
 
         tooltip.style("display", "none");
       	d3.select(this)
       	.attr("d",path)
-      .style("opacity", "1");
+      	.style("opacity", "1");
       });
 
   // arc.append("text")
