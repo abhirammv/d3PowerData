@@ -11,8 +11,9 @@
         padding: 14px;
         text-align: center;
     }
+    .axis--x { font: 8px sans-serif; }
 </style>
-<svg width="860" height="500"></svg>
+<svg width="650" height="500"></svg>
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="legend.js"></script>
 <script>
@@ -26,7 +27,7 @@ var svg = d3.select("svg"), //svg is defined
 var parseDate = d3.timeParse("%m/%d/%y"); //dateparser
 
 var x = d3.scaleTime().range([0, width - 50]), //x scale is time-scale
-    y = d3.scaleLinear().domain([100, 140000]).range([height, 0]), //y scale depends on some values
+    y = d3.scaleLinear().domain([100, 200000]).range([height, 0]), //y scale depends on some values
     z = d3.scaleOrdinal().range(d3.schemeCategory10); //z axis is the color 
 
 var stack = d3.stack(); //constructs a stack - computes stacked y positions
@@ -108,8 +109,9 @@ d3.tsv("data_2.tsv", type, function(error, data) { //type() fn is passed - type 
     g.append("g") //append to g
       .attr("class", "axis axis--x") //x axis class
       .attr("transform", "translate(0," + height + ")") //put it down 
-      .call(d3.axisBottom(x)); //call to axis 
-
+      .call(d3.axisBottom(x));
+       //call to axis 
+       
     g.append("g") //append to g 
       .attr("class", "axis axis--y") //y axis class 
       .call(d3.axisLeft(y)); //append to the left. Ticks of 10 with the % symbol

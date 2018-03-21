@@ -7,7 +7,7 @@
 
 <meta charset="utf-8">
 <head>
-  <svg width="1000" height="500"></svg>
+  <svg width="600" height="550"></svg>
   <script src="//d3js.org/d3.v4.min.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     
@@ -75,7 +75,7 @@ var line = d3.line()
     .x(function(d) { return x(d.time_stamp); })
     .y(function(d) { return y(d.temperature); });
 
-d3.csv("./house2/day_1.csv", type, function(error, data) {
+d3.csv("./house1/day_1.csv", type, function(error, data) {
   if (error) throw error;
 
   var cities = data.columns.slice(1).map(function(id) {
@@ -199,10 +199,10 @@ function updateData(csvFile) {
    
 }
 
-var datasets = ["./house2/day_1.csv","./house2/day_2.csv","./house2/day_3.csv","./house2/day_4.csv","./house2/day_5.csv","./house2/day_6.csv","./house2/day_7.csv","./house2/day_8.csv","./house2/day_9.csv","./house2/day_10.csv",
-                "./house2/day_11.csv","./house2/day_12.csv","./house2/day_13.csv","./house2/day_14.csv","./house2/day_15.csv","./house2/day_16.csv","./house2/day_17.csv","./house2/day_18.csv","./house2/day_19.csv","./house2/day_20.csv",
-                "./house2/day_21.csv","./house2/day_22.csv","./house2/day_23.csv","./house2/day_24.csv","./house2/day_25.csv","./house2/day_26.csv","./house2/day_27.csv","./house2/day_28.csv","./house2/day_29.csv","./house2/day_30.csv",
-                "./house2/day_31.csv","./house2/day_32.csv","./house2/day_33.csv","./house2/day_34.csv","./house2/day_35.csv","./house2/day_36.csv","./house2/day_37.csv"]
+var datasets = ["./house1/day_1.csv","./house1/day_2.csv","./house1/day_3.csv","./house1/day_4.csv","./house1/day_5.csv","./house1/day_6.csv","./house1/day_7.csv","./house1/day_8.csv","./house1/day_9.csv","./house1/day_10.csv",
+                "./house1/day_11.csv","./house1/day_12.csv","./house1/day_13.csv","./house1/day_14.csv","./house1/day_15.csv","./house1/day_16.csv","./house1/day_17.csv","./house1/day_18.csv","./house1/day_19.csv","./house1/day_20.csv",
+                "./house1/day_21.csv","./house1/day_22.csv","./house1/day_23.csv","./house1/day_24.csv","./house1/day_25.csv","./house1/day_26.csv","./house1/day_27.csv","./house1/day_28.csv","./house1/day_29.csv","./house1/day_30.csv",
+                "./house1/day_31.csv","./house1/day_32.csv","./house1/day_33.csv","./house1/day_34.csv","./house1/day_35.csv","./house1/day_36.csv","./house1/day_37.csv"]
 var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24"]; 
 $('#slider').slider({
       orientation: 'horizontal',

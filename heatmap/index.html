@@ -9,6 +9,17 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <style>
+
+.tooltip{
+        position: absolute;
+        display: none;
+        min-width: 80px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid #6F257F;
+        padding: 14px;
+        text-align: center;
+    }
     rect.bordered {
         stroke: #E6E6E6;
         stroke-width:0.5px;
@@ -38,15 +49,15 @@
 
 
 </head>
-<body>
-<div id="chart" style="text-align: center;"></div>
+<body style="width: 650px;">
+<div id="chart" style="text-align: left; "></div>
 <div id="slider"></div>
 <div id="appliance"></div>
 <script type="text/javascript">
     const margin = { top: 50, right: 0, bottom: 100, left: 130 },
-        width = 960 - margin.left - margin.right,
+          width = 960 - margin.left - margin.right,
         height = 800 - margin.top - margin.bottom,
-        gridSize = Math.floor(width / 48), //controls the heatmap grid size without moving the legenf
+        gridSize = Math.floor(width / 60), //controls the heatmap grid size without moving the legenf
         legendElementWidth = gridSize*3,
         buckets = 10;
         //colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
@@ -59,7 +70,7 @@
     //750, 35750, 70750, 105750, 140750, 175750, 210750, 245750, 280750, 315750 //10 values
       
     const svg = d3.select("#chart").append("svg") //appends am svg into the div chart
-                .attr("width", width + margin.left + margin.right)
+                .attr("width", 500 + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -87,10 +98,10 @@
     const type = (d) => {return {day: +d.day, hour: +d.hour, value: +d.value}; };
     
     const heatmapChart = function(tsvFile) {
-        
+        var tooltip = d3.select("body").append("div").attr("class", "tooltip");
         
         //var colors = d3.schemeReds[9];
-		var colors = d3.schemeYlOrBr[9];
+		var colors = d3.schemeReds[9];
 		//var colors = d3.schemeRdYlGn[10];
         d3.tsv(tsvFile, type, (error, data) => {
           
@@ -110,8 +121,8 @@
         cards.enter().append("rect")
             .attr("x", (d) => (d.hour - 1) * gridSize)
             .attr("y", (d) => (d.day - 1) * gridSize)
-            .attr("rx", 10)
-            .attr("ry", 10)
+            .attr("rx", 0)
+            .attr("ry", 0)
             .attr("class", "hour bordered")
             .attr("width", gridSize)
             .attr("height", gridSize)
@@ -120,7 +131,16 @@
             .transition()
             .duration(500)
             .style("fill", (d) => colorScale(d.value));
-
+        d3.selectAll("rect")
+        .on("mousemove", function(d){
+          tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .style("opacity", "0.8")
+                .html((d.value));
+        })
+        .on("mouseout", () => tooltip.style("display","none"));
         cards.select("title").text((d) => d.value);
 
         cards.exit().remove();

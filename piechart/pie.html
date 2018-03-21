@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+.tooltip{
+        position: absolute;
+        display: none;
+        min-width: 80px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid #6F257F;
+        padding: 14px;
+        text-align: center;
+    }
 .arc text {
   font: 12px sans-serif;
   text-anchor: middle;
@@ -23,8 +32,9 @@ var svg = d3.select("svg"),
     height = +svg.attr("height"),
     margin = {top: 20, right: 20, bottom: 30, left: 50},
     radius = Math.min(width, height) / 3;
-
-var g = svg.append("g").attr("transform", "translate(" + width / 5 + "," + height / 3 + ")");
+var W = width/2 - 50;
+var H = height/2;
+var g = svg.append("g").attr("transform", "translate(" + W  + "," + H + ")");
     
       
 var keys = ["refrigerator", "dish", "kitchen", "lighting", "washer", "microwave"];
@@ -51,6 +61,8 @@ var arcOver = d3.arc().outerRadius(radius + 2)
 var legend = d3.legend()
 .translate([ width/4 + 20  , height/8 - 100])
 .cb(function() { console.log("Done legend!"); }).colors(color);
+
+var tooltip = d3.select("body").append("div").attr("class", "tooltip");
     
 
 d3.csv("piedata.csv", function(d) {
@@ -62,7 +74,6 @@ d3.csv("piedata.csv", function(d) {
     .data(pie(data))
     .enter().append("g")
       .attr("class", "arc");
-
   arc.append("path")
       .attr("d", path)
       .attr("fill", function(d) { return color(d.data.device); })
@@ -71,17 +82,27 @@ d3.csv("piedata.csv", function(d) {
       	d3.select(this)
       	.attr("d",arcOver)
       .style("opacity", "0.7");
+
+
+      tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .style("opacity", "0.8")
+                .html((d.data.usage));
       })
       .on("mouseout", function(d){
+
+        tooltip.style("display", "none");
       	d3.select(this)
       	.attr("d",path)
       .style("opacity", "1");
       });
 
-  arc.append("text")
-      .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-      .attr("dy", "0.35em")    
-      .text(function(d) { return d.data.device; });
+  // arc.append("text")
+  //     .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+  //     .attr("dy", "0.35em")    
+  //     .text(function(d) { return d.data.device; });
       
     g.call(legend);
 });
