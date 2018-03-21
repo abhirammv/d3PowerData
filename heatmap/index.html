@@ -131,6 +131,7 @@
             .transition()
             .duration(500)
             .style("fill", (d) => colorScale(d.value));
+			
         d3.selectAll("rect")
         .on("mousemove", function(d){
           tooltip
@@ -138,7 +139,9 @@
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
                 .style("opacity", "0.8")
-                .html((d.value));
+                .html(function(){
+		  			 return "<strong>" + days[d.day - 1] + "</br>" + d.hour + ": </strong>" + d.value;
+		  		});
         })
         .on("mouseout", () => tooltip.style("display","none"));
         cards.select("title").text((d) => d.value);
