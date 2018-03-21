@@ -103,7 +103,7 @@
         //var colors = d3.schemeReds[9];
 		var colors = d3.schemeReds[9];
 		//var colors = d3.schemeRdYlGn[10];
-        d3.tsv(tsvFile, type, (error, data) => {
+        d3.csv(tsvFile, type, (error, data) => {
           
         //const colorScale = d3.scaleQuantile()
         //    .domain([0, d3.max(data, (d) => d.value), 1])
@@ -187,7 +187,7 @@
       //   .attr("class", "dataset-button")
       //   .on("click", (d) => heatmapChart(d));
 
-var datasets = ["kitchen.tsv", "fridge.tsv", "light.tsv", "micro.tsv", "wash.tsv", "dish.tsv"];
+var datasets = ["kitchen.csv", "fridge.csv", "light.csv", "micro.csv", "wash.csv", "dish.csv"];
 var appliances = ["kitchen", "fridge", "light", "micro", "wash", "dish"];
  heatmapChart(datasets[0]);
 $('#slider').slider({
