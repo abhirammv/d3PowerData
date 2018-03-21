@@ -111,10 +111,17 @@ d3.csv("day_by_day_house_1.csv", type, function(error, data) { //type() fn is pa
       .attr("transform", "translate(0," + height + ")") //put it down 
       .call(d3.axisBottom(x));
        //call to axis 
+	
        
     g.append("g") //append to g 
       .attr("class", "axis axis--y") //y axis class 
-      .call(d3.axisLeft(y)); //append to the left. Ticks of 10 with the % symbol
+      .call(d3.axisLeft(y)) //append to the left. Ticks of 10 with the % symbol
+    	.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", "0.71em")
+		.attr("fill", "#000")
+		.text("Power Consumption(W)");
   
     
     //g.call(legend);
