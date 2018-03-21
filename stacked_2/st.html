@@ -47,7 +47,7 @@ var legend = d3.legend()
 .cb(function() { console.log("Done legend!"); });
 
 
-d3.tsv("data_2.tsv", type, function(error, data) { //type() fn is passed - type is a time parser
+d3.csv("day_by_day_house_1.csv", type, function(error, data) { //type() fn is passed - type is a time parser
   if (error) throw error;
 
   var keys = data.columns.slice(1); //column names from the 1st col. 
@@ -119,7 +119,7 @@ d3.tsv("data_2.tsv", type, function(error, data) { //type() fn is passed - type 
     
     g.call(legend);
 
-}); //d3.tsv ends here 
+}); //d3.csv ends here 
     
 
     
