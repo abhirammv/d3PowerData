@@ -7,11 +7,8 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="legend.js"></script>
 	<style>
-
-  		.axis--x path {
-    
-  					}
 
   		.line {
     		fill: none;
@@ -56,6 +53,13 @@
 	var x = d3.scaleTime().range([0, width]),
     	y = d3.scaleLinear().range([height, 0]),
     	z = d3.scaleOrdinal(d3.schemeCategory10);
+	
+	var legend = d3.legend()
+		.translate([ width - 5 , height / 8 ])
+		.cb(function() { console.log("Done legend!"); });
+	
+	//legend 
+	
 
 	var line = d3.line()
     	.curve(d3.curveBasis)
@@ -80,6 +84,7 @@
   	]);
 
   	z.domain(cities.map(function(c) { return c.id;}));
+	legend.colors(z);
 
 	g.append("g")
 	.attr("class", "axis axis--x")
@@ -117,14 +122,16 @@
 //         .duration(2000)
 //         .ease(d3.easeLinear)
 //         .attr("stroke-dashoffset", 0);
-	city.append("text") 
-		.attr("class","labels")
-		.datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-      	.attr("transform", function(d) { return "translate(" + x(d.value.time_stamp) + "," + y(d.value.temperature) + ")"; })
-      	.attr("x", 3)
-      	.attr("dy", "0.35em")
-      	.style("font", "10px sans-serif")
-      	.text(function(d) { return d.id; });
+	//city.append("text") 
+	//	.attr("class","labels")
+	//	.datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      //	.attr("transform", function(d) { return "translate(" + x(d.value.time_stamp) + "," + y(d.value.temperature) + ")"; })
+      	//.attr("x", 3)
+      	//.attr("dy", "0.35em")
+      	//.style("font", "10px sans-serif")
+      	//.text(function(d) { return d.id; });
+	
+	g.call(legend);
 }); //d3.csv ends here
 
 function type(d, _, columns) {
@@ -154,12 +161,16 @@ function updateData(csvFile) {
 
     
     	z.domain(cities.map(function(c) { return c.id; })); 
+		legend.colors(z);
 
     	g.select(".axis--x")
     	.call(d3.axisBottom(x));
 
     	g.select(".axis--y")
     	.call(d3.axisLeft(y));
+		
+		g.call(legend);
+		
 
     	var city = g.selectAll(".city")
     	.data(cities);
@@ -167,12 +178,12 @@ function updateData(csvFile) {
 
     	city.select(".line").attr("d", function(d) { return line(d.values); }).style("stroke", function(d) { return z(d.id); });
 
-    	city.select(".labels").datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-      	.attr("transform", function(d) { return "translate(" + x(d.value.time_stamp) + "," + y(d.value.temperature) + ")"; })
-      	.attr("x", 3)
-      	.attr("dy", "0.35em")
-      	.style("font", "10px sans-serif")
-      	.text(function(d) { return d.id; });
+    	//city.select(".labels").datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      	//.attr("transform", function(d) { return "translate(" + x(d.value.time_stamp) + "," + y(d.value.temperature) + ")"; })
+      	//.attr("x", 3)
+      	//.attr("dy", "0.35em")
+      	//.style("font", "10px sans-serif")
+      	//.text(function(d) { return d.id; });
 
   }); //d3.csv   
 } //update 
