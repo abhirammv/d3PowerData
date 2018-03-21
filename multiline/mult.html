@@ -136,7 +136,7 @@
       	//.style("font", "10px sans-serif")
       	//.text(function(d) { return d.id; });
 	
-	g.call(legend);
+	//g.call(legend);
 }); //d3.csv ends here
 
 function type(d, _, columns) {
@@ -174,7 +174,7 @@ function updateData(csvFile) {
     	g.select(".axis--y")
     	.call(d3.axisLeft(y));
 		
-		g.call(legend);
+		//g.call(legend);
 		
 
     	var city = g.selectAll(".city")
