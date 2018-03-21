@@ -19,11 +19,11 @@
 .tooltip{
         position: absolute;
         display: none;
-        min-width: 80px;
+        min-width: 180px;
         height: auto;
         background: none repeat scroll 0 0 #ffffff;
         border: 1px solid #6F257F;
-        padding: 14px;
+        padding: 1px;
         text-align: center;
     }
     rect.bordered {
@@ -60,6 +60,10 @@
 <div id="slider"></div>
 
 <script type="text/javascript">
+
+
+   var appliance_number = 0;
+        var appliances = ["kitchen", "fridge", "light", "micro", "wash", "dish"];
     const margin = { top: 50, right: 0, bottom: 100, left: 130 },
           width = 960 - margin.left - margin.right,
         height = 800 - margin.top - margin.bottom,
@@ -137,19 +141,23 @@
             .transition()
             .duration(500)
             .style("fill", (d) => colorScale(d.value));
-			
+			   var times = ["12:00 am", "1:00 am", "2:00 am", "3:00 am", "4:00 am", "5:00 am", "6:00 am", "7:00 am", "8:00 am", "9:00 am", "10:00 am", "11:00 am", "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm", "4:00 pm", "5:00 pm", "6:00 pm", "7:00 pm", "8:00 pm", "9:00 pm", "10:00 pm", "11:00 pm"]
+         var dates = ["18-Apr","19-Apr","20-Apr","21-Apr","22-Apr","23-Apr","24-Apr","25-Apr","26-Apr","27-Apr","28-Apr","29-Apr","30-Apr","01-May","02-May","03-May","04-May","05-May","06-May","07-May","08-May","09-May","10-May","11-May","12-May","13-May","14-May","15-May","16-May","17-May","18-May","19-May","20-May","21-May","22-May","23-May","24-May","25-May"];
+       
         d3.selectAll("rect")
         .on("mousemove", function(d){
+          d3.select(this).style("opacity", 0.7)
           tooltip
               .style("left", d3.event.pageX - 50 + "px")
-                .style("top", d3.event.pageY - 70 + "px")
+                .style("top", d3.event.pageY + 20 + "px")
                 .style("display", "inline-block")
                 .style("opacity", "0.8")
                 .html(function(){
-		  			 return "<strong>" + days[d.day - 1] + "</br>" + d.hour + ": </strong>" + d.value;
+		  			 //return "<div><strong>" +  + "</br>" + times[d.hour - 1] + ": </strong>" + d.value ;
+            return "<div style='display: flex; flex-direction: column;'><div style='display: flex; justify-content: center;'>"+ appliances[appliance_number] + "</div><div style='display: flex; flex-direction: row;'><div style='display: flex; justify-content: flex-start; width: 45%'>Date</div><div style='display: flex; justify-content: center; width: 10%'>:</div><div style='display: flex; justify-content: flex-end; width: 45%'>"+dates[d.day - 1]+"</div></div><div style='display: flex; flex-direction: row;'><div style= 'display: flex; justify-content: flex-start; width: 45%'>Time</div><div style='display: flex; justify-content: center; width: 10%'>:</div><div style='display: flex; justify-content: flex-end; width: 45%'>" + times[d.hour - 1] + "</div>    </div><div style='display: flex; flex-direction: row;'><div style= 'display: flex; justify-content: flex-start; width: 45%'>Usage</div><div style='display: flex; justify-content: center; width: 10%'>:</div><div style='display: flex; justify-content: flex-end; width: 45%'>" + d.value + "W</div></div></div>"
 		  		});
         })
-        .on("mouseout", () => tooltip.style("display","none"));
+        .on("mouseout", function(d) { tooltip.style("display","none"); d3.select(this).style("opacity", 1); });
         cards.select("title").text((d) => d.value);
 
         cards.exit().remove();
@@ -197,7 +205,7 @@
       //   .on("click", (d) => heatmapChart(d));
 
 var datasets = ["kitchen.csv", "fridge.csv", "light.csv", "micro.csv", "wash.csv", "dish.csv"];
-var appliances = ["kitchen", "fridge", "light", "micro", "wash", "dish"];
+
  heatmapChart(datasets[0]);
 $('#slider').slider({
       orientation: 'horizontal',
@@ -210,6 +218,7 @@ $('#slider').slider({
       animate: true,
       change: function(event, ui) {
         console.log(ui.value)
+        appliance_number = ui.value;
         heatmapChart(datasets[ui.value])
         // $("#appliance").text(appliances[ui.value]);
       }
