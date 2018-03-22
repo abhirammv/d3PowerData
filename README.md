@@ -5,3 +5,4 @@
 <p>pie, heatmap, multiseries, stacked_2 has .html files to run individual visualization
 <p>get_data.ipynb has the data extraction script 
 <p>data_preprocess.ipynb was the initial file used to process data and select relevant functions
+<p>Thanks to Prof. Suresh Lodha and Dr. Patrick Mantey for guidance and support 
