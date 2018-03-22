@@ -64,7 +64,7 @@
 
    var appliance_number = 0;
         var appliances = ["kitchen", "fridge", "light", "micro", "wash", "dish"];
-    const margin = { top: 50, right: 0, bottom: 100, left: 130 },
+    var margin = { top: 50, right: 0, bottom: 100, left: 130 },
           width = 960 - margin.left - margin.right,
         height = 800 - margin.top - margin.bottom,
         gridSize = Math.floor(width / 60), //controls the heatmap grid size without moving the legenf
@@ -79,13 +79,13 @@
     
     //750, 35750, 70750, 105750, 140750, 175750, 210750, 245750, 280750, 315750 //10 values
       
-    const svg = d3.select("#chart").append("svg") //appends am svg into the div chart
+    var svg = d3.select("#chart").append("svg") //appends am svg into the div chart
                 .attr("width", 500 + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    const dayLabels = svg.selectAll(".dayLabel") //appends the day labels on the y axis
+    var dayLabels = svg.selectAll(".dayLabel") //appends the day labels on the y axis
                         .data(days)
                         .enter().append("text")
                         .text(function (d) { return d; })
@@ -95,7 +95,7 @@
                         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
                         .attr("class", (d, i) => ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"));
 
-    const timeLabels = svg.selectAll(".timeLabel") //appends the time labels on the x axis
+    var timeLabels = svg.selectAll(".timeLabel") //appends the time labels on the x axis
                         .data(times)
                         .enter().append("text")
                         .text((d) => d)
@@ -105,9 +105,9 @@
                         .attr("transform", "translate(" + gridSize / 2 + ", -6)")
                         .attr("class", (d, i) => ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"));
 
-    const type = (d) => {return {day: +d.day, hour: +d.hour, value: +d.value}; };
+    var type = (d) => {return {day: +d.day, hour: +d.hour, value: +d.value}; };
     
-    const heatmapChart = function(tsvFile) {
+    var heatmapChart = function(tsvFile) {
         var tooltip = d3.select("body").append("div").attr("class", "tooltip");
         
         //var colors = d3.schemeReds[9];
@@ -115,15 +115,18 @@
 		//var colors = d3.schemeRdYlGn[10];
         d3.csv(tsvFile, type, (error, data) => {
           
-        //const colorScale = d3.scaleQuantile()
+        //var colorScale = d3.scaleQuantile()
         //    .domain([0, d3.max(data, (d) => d.value), 1])
         //    .range(colors);
-        const colorScale = d3.scaleThreshold()
+        // var colorScale = d3.scaleThreshold()
+        //     .domain([75, 750, 35750, 70750, 105750, 140750, 175750, 210750, 245750]) //280750
+        //     .range([0].concat(colors));
+            var colorScale = d3.scaleThreshold()
             .domain([75, 750, 35750, 70750, 105750, 140750, 175750, 210750, 245750]) //280750
-            .range([0].concat(colors));
+            .range(colors);
         
         
-        const cards = svg.selectAll(".hour")
+        var cards = svg.selectAll(".hour")
             .data(data, (d) => d.day+':'+d.hour);
 
         cards.append("title");
@@ -161,12 +164,13 @@
         cards.select("title").text((d) => d.value);
 
         cards.exit().remove();
-
-        const legend = svg.selectAll(".legend")
-            .data(colorScale.domain(), (d) => d);
+        // const legend = svg.selectAll(".legend")
+        //       .data([0].concat(colorScale.quantiles()), (d) => d);
+        var legend = svg.selectAll(".legend")
+            .data([0].concat(colorScale.domain()), (d) => d);
             //.data(colorScale.domain(), function(d) { return d; })
 
-        const legend_g = legend.enter().append("g")
+        var legend_g = legend.enter().append("g")
             .attr("class", "legend");
 
         legend_g.append("rect")
@@ -193,7 +197,7 @@
 
      
 
-      // const datasetpicker = d3.select("#dataset-picker")
+      // var datasetpicker = d3.select("#dataset-picker")
       //   .selectAll(".dataset-button")
       //   .data(datasets);
 
