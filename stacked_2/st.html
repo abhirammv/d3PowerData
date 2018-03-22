@@ -77,13 +77,7 @@ d3.csv("day_by_day_house_1.csv", type, function(error, data) { //type() fn is pa
     .attr("d", area)
     .style("fill", function(d) {return z(d.key)});
     
-    d3.selectAll(".area").on("mousemove", function(d) {
-        d3.select(this)
-            	.style("opacity", "0.7"); 
-        }).on("mouseout", function(d) {
-        	d3.select(this).style("opacity", "1");
-        
-		});
+    
     
     //layer.filter(function(d) //used to append the text in the end 
       //      {
