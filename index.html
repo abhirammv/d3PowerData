@@ -2,21 +2,81 @@
 <html>
 <head>
 	<title></title>
+	<style>
+		.main{
+			display: flex; 
+			flex-direction: column; 
+			background-color: white; 
+			justify-content: flex-start;
+		}
+		.title {
+	text-align: center;
+	font-size: 22;
+}
+.desc {
+	text-align: center;
+		background-color: #ded5f2;
+}
+.visual {
+	margin:10%;
+	text-align: center;
+	border-style: solid;
+
+}
+body {
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: Arial;
+	background-color: white;
+}
+.information {
+	background-color: #d7e2df;
+}
+
+#tableInfo {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#tableInfo td, #tableInfo th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: 33%;
+
+}
+
+#tableInfo tr:nth-child(even){background-color: #f2f2f2;}
+
+#tableInfo tr:hover {background-color: #ddd;}
+
+#tableInfo th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+	</style>
 </head>
 <body>
 <div>
-	<div>
-	HEADER - MISC - ETC - THIS IS RESIZABLE (I'LL USE FLEXBOX)
+	<div style="">
+	<h2 style = "text-align:center; color:darkblue"><bold>Power Consumption Visualization</bold></h2>
+        <p>Visualization of Power Consumption of a residence. Refrigerator, Stove/Oven, Dishwasher, Microwave, Washer + Dryer and the lighting power data of a house is visualized below. There are certain missing values and high values which are regarded as anomalies. We have left them as is in the vizualization since it is a more accurate representation of the data collected from the real world. The dataset used is provided by Dr. Patrick Mantey</p>
+        <br><br><br><br>
 </div>
-	<div style="display: flex; flex-direction: column; background-color: white">
+	<div class="main">
 
 		<div style="display: flex; flex-direction: row;">
-			<div style="display: flex;">
-				<iframe scrolling="no" frameborder="0" height="600" width="650" src="./piechart/pie.html"></iframe>
+			<div style="display: flex; flex-direction: column;">
+				<div style="display: flex; justify-content: center;	"> Total Power Consumption</div>
+				<div style="display: flex;"><iframe scrolling="no" frameborder="0" height="600" width="650" src="./piechart/pie.html"></iframe></div>
 			</div>
 			
-			<div style="display: flex;">
-								<iframe scrolling="no" frameborder="0" height="600" width="1000" src="./stacked_2/st.html"></iframe>
+			<div style="display: flex;  flex-direction: column;">
+				<div style="display: flex; justify-content: center;">Overview of Consumption</div>
+								<div style="display: flex"><iframe scrolling="no" frameborder="0" height="600" width="800" src="./stacked_2/st.html"></iframe></div>
 
 			</div>
 		</div>
@@ -24,12 +84,14 @@
 	
 		
 		<div style="display: flex; flex-direction: row;">
-			<div style="display: flex;">
-												<iframe scrolling="no" frameborder="0" height="1000" width="650" src="./heatmap/index.html"></iframe>
+			<div style="display: flex; flex-direction: column;">
+				<div style="display: flex; justify-content: center;">Hourly Consumption of Each Appliance</div>
+												<div style="display: flex"><iframe scrolling="no" frameborder="0" height="800" width="650" src="./heatmap/index.html"></iframe></div>
 
 			</div>
-			<div style="display: flex;">
-												<iframe scrolling="no" frameborder="0" height="600" width="600" src="./multiline/mult.html"></iframe>
+			<div style="display: flex; flex-direction: column;">
+				<div style="display: flex; justify-content: center;">Comparison of Daily Consumption of Each Appliance</div>
+												<div style="display: flex"><iframe scrolling="no" frameborder="0" height="800" width="800" src="./multiline/mult.html"></iframe></div>
 
 			</div>
 
@@ -42,7 +104,31 @@
 
 	</div>
 <div>
-	FOOTER - MISC - ETC - THIS IS RESIZABLE (I'LL USE FLEXBOX)
+	<table id="tableInfo">
+		  <tr>
+		    <th>Members</th>
+		    <th>Data Sources</th>
+		    <th>Visualization Sources</th>
+		  </tr>
+		  <tr>
+		    <td><p>Abhiram Madenur Venkatesha</p></td>
+		    <td><a href = "https://github.com/abhirammv/d3PowerData/tree/master/data/house_1" target="_blank">Dataset</a></td>
+			 <td><a href = "https://bl.ocks.org/santi698/f3685ca8a1a7f5be1967f39f367437c0">Pie Chart</a></td>
+		  </tr>
+		  <tr>
+		    <td><p>Tanay Parekhji</p></td>
+		    <td><a href = "http://redd.csail.mit.edu" target="_blank">Reference Energy Disaggregation Dataset (REDD)</a></td>
+			  <td><a href="http://blockbuilder.org/mbostock/3885211">Stacked Area Chart</a></td>
+			  
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td></td>
+			<td><a href="http://blockbuilder.org/Thanaporn-sk/107ea281b84a78ab72596e3ca9faea00">Heat Map</a></td>
+		  </tr>
+		  	
+		  
+		</table>
 </div>
 </div>
 </body>

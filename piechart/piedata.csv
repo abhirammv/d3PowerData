@@ -1,7 +1,7 @@
 device,usage
 Refrigerator,42301545.0
 Dishwasher,18246649.0
-Stove+Oven,50977384.0
+Stove/Oven,50977384.0
 Lighting,57485182.0
-Washer_Dryer,30206552.0
+Washer/Dryer,30206552.0
 Microwave,15679973.0

@@ -15,6 +15,7 @@
   margin-top: 20px;
   margin-left: -10px;
   text-align: center;
+  font-size: 10px;
 }
 .tooltip{
         position: absolute;
@@ -35,6 +36,7 @@
         font-size: 8pt;
         font-family: Consolas, courier;
         fill: #000;
+        padding: 100px;
         }
          .ui-slider {
     width: 30em;
@@ -63,16 +65,16 @@
 
 
    var appliance_number = 0;
-        var appliances = ["kitchen", "fridge", "light", "micro", "wash", "dish"];
+        var appliances = ["Oven/Stove", "Refrigerator", "Lighting", "Microwave", "Washer/Dryer", "Dishwasher"];
     var margin = { top: 50, right: 0, bottom: 100, left: 130 },
           width = 960 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom,
+        height = 600 - margin.top - margin.bottom,
         gridSize = Math.floor(width / 60), //controls the heatmap grid size without moving the legenf
         legendElementWidth = gridSize*3,
         buckets = 10;
         //colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
           
-    var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24", "05-25"];
+    var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-24","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24", ];
 
     var times = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"];
     
@@ -174,11 +176,11 @@
             .attr("class", "legend");
 
         legend_g.append("rect")
-            .attr("x", (d, i) => legendElementWidth * i - 35)
-            .attr("y", height)
+            .attr("x", (d, i) => legendElementWidth * i * 1.2 - 80)
+            .attr("y", height +50)
 			.attr("rx", 0)
 			.attr("ry", 0)
-            .attr("width", legendElementWidth)
+            .attr("width", legendElementWidth*1.2)
             .attr("height", gridSize)
             .style("fill", (d, i) => colors[i]);
 			
@@ -186,10 +188,10 @@
             .attr("class", "mono")
             //.text((d) => "≥ " + Math.round(d))
             .text(function (d) {
-				if(d < 105750){return "> "+ Math.round(d) + "W";}
-				else {return "> " + Math.round(d/1000) + "kW";}})
-            .attr("x", (d, i) => legendElementWidth * i - 35)
-            .attr("y", height + gridSize + gridSize -8);
+				if(d < 1000){return "> "+ Math.round(d) + "W";}
+				else {return ">" + Math.round(d/1000) + "kW";}})
+            .attr("x", (d, i) => legendElementWidth * i * 1.2 - 80)
+            .attr("y", height + gridSize + gridSize +50);
 
         legend.exit().remove();
         }); //d3.tsv ends here 

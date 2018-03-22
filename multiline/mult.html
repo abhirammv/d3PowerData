@@ -41,12 +41,14 @@
 	</style>
 </head>  
 <body style="height: 750px">
-  <svg width="600" height="550"></svg>
+  <svg width="600" height="600"></svg>
 
-<div id="slider"></div>
+<div id="slider" style="margin-left: 40px"></div>
+<br><br>
+<div id="day" style="margin-left: 250px;">18-Apr</div>
 
 <script>
-
+var dates = ["18-Apr","19-Apr","20-Apr","21-Apr","22-Apr","23-Apr","24-Apr","25-Apr","26-Apr","27-Apr","28-Apr","29-Apr","30-Apr","01-May","02-May","03-May","04-May","05-May","06-May","07-May","08-May","09-May","10-May","11-May","12-May","13-May","14-May","15-May","16-May","17-May","18-May","19-May","20-May","21-May","22-May","23-May","24-May","25-May"];
 	var svg = d3.select("svg"),
     	margin = {top: 20, right: 80, bottom: 30, left: 50},
     	width = svg.attr("width") - margin.left - margin.right,
@@ -197,7 +199,7 @@ var datasets = ["./house1/day_1.csv","./house1/day_2.csv","./house1/day_3.csv","
                 "./house1/day_21.csv","./house1/day_22.csv","./house1/day_23.csv","./house1/day_24.csv","./house1/day_25.csv","./house1/day_26.csv","./house1/day_27.csv","./house1/day_28.csv","./house1/day_29.csv","./house1/day_30.csv",
                 "./house1/day_31.csv","./house1/day_32.csv","./house1/day_33.csv","./house1/day_34.csv","./house1/day_35.csv","./house1/day_36.csv","./house1/day_37.csv"]
 
-var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24"]; 
+var days = ["04-18","04-19","04-20","04-21","04-22","04-23","04-24","04-25","04-26","04-27","04-28","04-29","04-30","05-01","05-02","05-03","05-04","05-05","05-06","05-07","05-08","05-09","05-10","05-11","05-12","05-13","05-14","05-15","05-16","05-17","05-18","05-19","05-20","05-21","05-22","05-23","05-24"]; 
 
 $('#slider').slider({
       orientation: 'horizontal',
@@ -209,7 +211,7 @@ $('#slider').slider({
       change: function(event, ui) {
         console.log(ui.value)
         updateData(datasets[ui.value])
-        $("#day").text(days[ui.value]);
+        $("#day").text(dates[ui.value]);
       }
     }).each(function() {
 
