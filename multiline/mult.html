@@ -57,7 +57,7 @@
 
 	var x = d3.scaleTime().range([0, width]),
     	y = d3.scaleLinear().range([height, 0]),
-    	z = d3.scaleOrdinal(d3.schemeCategory10);
+    	z = d3.scaleOrdinal().range(["#ff7f00","#377eb8","#4daf4a","#984ea3","#e8e127","#e41a1c"]);
 	
 	var legend = d3.legend()
 		.translate([ width - 5 , height / 8 ])

@@ -28,7 +28,7 @@ var parseDate = d3.timeParse("%m/%d/%y"); //dateparser
 
 var x = d3.scaleTime().range([0, width - 50]), //x scale is time-scale
     y = d3.scaleLinear().domain([100, 200000]).range([height, 0]), //y scale depends on some values
-    z = d3.scaleOrdinal().range(d3.schemeCategory10); //z axis is the color 
+   z = d3.scaleOrdinal().range(["#ff7f00","#377eb8","#4daf4a","#984ea3","#e8e127","#e41a1c"]); //z axis is the color 
 
 var stack = d3.stack(); //constructs a stack - computes stacked y positions
 //the stacked up data is passed to the area function

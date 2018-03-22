@@ -42,7 +42,9 @@ console.log(total);
 var keys = ["Refrigerator", "Dishwasher", "Stove+Oven", "Lighting", "Washer_Dryer", "Microwave"];
     console.log(keys);
     
-var color = d3.scaleOrdinal(d3.schemeCategory10).domain(keys); //.range(d3.schemeCategory10)
+var color = d3.scaleOrdinal().domain(keys).range(["#ff7f00","#377eb8","#4daf4a","#984ea3","#e8e127","#e41a1c"]); //.range(d3.schemeCategory10)
+
+console.log(color);
     
 
 var pie = d3.pie()
