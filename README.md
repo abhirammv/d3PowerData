@@ -1,5 +1,6 @@
 # d3PowerData
 <p>A visualization of the time series power consumption dataset for CMPS263
+<p> Visualization of house_1 data of the REDD dataset (http://redd.csail.mit.edu)
 <p>data folder has the data seperated by day and hour for each appliance
 <p>index.html runs the final presentation
 <p>pie, heatmap, multiseries, stacked_2 has .html files to run individual visualization
